@@ -2,10 +2,10 @@
 <head>
     <title>Utilizando Laravel 9 com Image Intervention</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css">
 
-    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <body>
 
@@ -45,39 +45,48 @@
 
 
     </form>
+</div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <strong>Imagem Thumbnail:</strong>
-            </div>
-            <div class="col-md-6">
-                <strong>Descrição:</strong>
-            </div>
-        </div>
-        <div class="row">
-            @if($image) 
-                @foreach($image as $img)
-                    <div class="col-md-6">
-                        <br/>
+<div class="container mt-5">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" width="1%">#</th>
+            <th scope="col" width="15%">Imagem</th>
+            <th scope="col">Descrição</th>
+            <th scope="col" width="10%">Data de criação</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($image as $img)
+            <tr>
+                <th scope="row">{{ $img->id }}</th>
+                <td>
+                    <a href="/images/{{$img->filename}}" data-lightbox="roadtrip">
                         <img src="/thumbnail/{{$img->filename}}"  />
-                    </div>
-                    <div class="col-md-6">
-                        <p>{{ $img->description  }}</p>
-                    </div>
-                    {{--<div class="col-md-8">
-                        <strong>Imagem Original:</strong>
-                        <br/>
-                        <img src="/images/{{$img->filename}}" />
-                    </div>--}}
-                @endforeach
-            @endif
-        </div>
+                    </a>
+
+                </td>
+                <td>{{ $img->description }}</td>
+                <td>{{ $img->created_at }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        {!! $image->links() !!}
+    </div>
 </div>
 </body>
-
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
-</script>
 </html>
+
+<style>
+    svg {
+        max-width: 20px;
+    }
+
+    p {
+        margin-top: 1rem;
+    }
+</style>

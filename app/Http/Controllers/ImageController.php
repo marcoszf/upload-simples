@@ -20,7 +20,7 @@ class ImageController extends Controller
 
     public function create()
     {
-        $image = Postimage::all();
+        $image = Postimage::latest()->paginate(10);
         return view('createimage', compact('image'));
     }
 
